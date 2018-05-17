@@ -1,29 +1,28 @@
 {
   "name": "fms-admin-client",
   "version": "0.0.1",
-  "description": "A client to allow remote connection to the FileMaker Server Admin CLI",
+  "description":
+    "A client to allow remote connection to the FileMaker Server Admin CLI",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive ./tests"
+    "test": "mocha --recursive ./tests",
+    "generate-readme":
+      "node_modules/.bin/readme package.json --tests --travis > README.md",
+    "generate-docs": "node_modules/.bin/jsdoc --configure .jsdoc.js --verbose",
+    "examples": "node ./examples"
   },
   "repository": {
     "type": "git",
     "url": "git+https://Luidog@github.com/Luidog/fms-admin-client.git"
   },
-  "keywords": [
-    "FileMaker",
-    "marpat",
-    "node",
-    "admin",
-    "cli"
-  ],
+  "keywords": ["FileMaker", "marpat", "node", "admin", "cli"],
   "author": "Lui de la Parra",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Luidog/fms-admin-client/issues"
   },
   "homepage": "https://github.com/Luidog/fms-admin-client#readme",
-  "dependencies": {
+  "peerDependencies": {
     "marpat": "^1.16.0"
   },
   "devDependencies": {
