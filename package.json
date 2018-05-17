@@ -5,7 +5,11 @@
     "A client to allow remote connection to the FileMaker Server Admin CLI",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive ./tests"
+    "tests": "mocha --recursive ./tests",
+    "generate-readme":
+      "node_modules/.bin/readme package.json --tests --travis > README.md",
+    "generate-docs": "node_modules/.bin/jsdoc --configure .jsdoc.js --verbose",
+    "examples": "node ./examples"
   },
   "repository": {
     "type": "git",
