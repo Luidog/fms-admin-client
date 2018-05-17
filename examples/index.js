@@ -10,8 +10,24 @@ varium(process.env, './tests/env.manifest');
 
 connect('nedb://memory').then(db => {
   let client = Client.create({
-    server: process.env.SERVER
+    host: process.env.HOST,
+    username: process.env.USERNAME,
+    privateKey: process.env.PRIVATEKEY
   });
 
-  client.save().then(client => console.log(client.toJSON()));
+  client.save().then(client =>
+    client
+      .connect()
+      .then(ssh => {
+        ssh
+          .exec('fmsadmin', [''], {
+            stream: 'stdout',
+            options: { pty: true }
+          })
+          .then(response => console.log(response))
+          .then(() => client.disconnect());
+      })
+
+      .catch(error => console.log(error))
+  );
 });
