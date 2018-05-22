@@ -39,7 +39,14 @@ describe('Filemaker Admin CLI SSH Client', () => {
   it('should allow an instance to be saved.', () => {
     return expect(client.save())
       .to.eventually.be.an('object')
-      .that.has.all.keys('_schema', '_id', 'privateKey', 'username', 'host');
+      .that.has.all.keys(
+        '_schema',
+        '_id',
+        'cli',
+        'privateKey',
+        'username',
+        'host'
+      );
   });
 
   it('should connect to remote machines', () => {
