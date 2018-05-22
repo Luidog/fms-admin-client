@@ -12,7 +12,9 @@ connect('nedb://memory').then(db => {
   let client = Client.create({
     host: process.env.HOST,
     username: process.env.USERNAME,
-    privateKey: process.env.PRIVATEKEY
+    privateKey: process.env.PRIVATEKEY,
+    user: process.env.USER,
+    password: process.env.PASSWORD
   });
 
   client.save().then(client =>
@@ -20,7 +22,7 @@ connect('nedb://memory').then(db => {
       .connect()
       .then(ssh => {
         ssh
-          .exec('fmsadmin', [''], {
+          .exec(client.cli.pause(process.env.APPLICATION), [''], {
             stream: 'stdout',
             options: { pty: true }
           })
