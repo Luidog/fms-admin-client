@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Client.html">Client</a></span></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-Client.html">Client</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-filemaker_index.html">filemaker/index</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Admin.html">Admin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Admin.html#._getPaths">_getPaths</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Admin.html#.clone">clone</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Admin.html#.list">list</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Admin.html#preInit">preInit</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CLI.html">CLI</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Credentials.html">Credentials</a></span></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-Admin.html">Admin</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-CLI.html">CLI</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-Credentials.html">Credentials</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#cli">cli</a></span></li>
 </nav>
 
 <div id="main">
@@ -48,30 +48,65 @@
 
 
     <section class="readme">
-        <article><h1>fms-admin-client <a href="https://travis-ci.org/Luidog/fms-admin-client"><img src="https://travis-ci.org/Luidog/fms-admin-client.png?branch=master" alt="Build Status"></a></h1><p>A client to allow remote connection to the FileMaker Server Admin CLI</p>
+        <article><h1>fms-admin-client</h1><p>A client to allow remote connection to the FileMaker Server Admin CLI</p>
 <h2>Installation</h2><p>This is a <a href="https://nodejs.org/">Node.js</a> module available through the 
 <a href="https://www.npmjs.com/">npm registry</a>. It can be installed using the 
 <a href="https://docs.npmjs.com/getting-started/installing-npm-packages-locally"><code>npm</code></a>
 or 
 <a href="https://yarnpkg.com/en/"><code>yarn</code></a>
 command line tools.</p>
-<pre class="prettyprint source lang-sh"><code>npm install fms-admin-client --save</code></pre><pre class="prettyprint source"><code>
-> fms-admin-client@0.0.1 test /Users/luidelaparra/Documents/Development/fms-admin-client
-> echo 'Error: no test specified'
-Error: no test specified
-</code></pre><h2>Dependencies</h2><p>None</p>
+<pre class="prettyprint source lang-sh"><code>npm install fms-admin-client --save</code></pre><h2>Tests</h2><pre class="prettyprint source lang-sh"><code>npm install
+npm test</code></pre><pre class="prettyprint source"><code>
+> fms-admin-client@0.0.1 test /fms-admin-client
+> nyc _mocha --recursive ./tests --timeout=30000
+  Clone Capabilities
+    ✓ should clone a file to a temp directory (1177ms)
+  Service Capabilities
+    ✓ should throw an error if the service is already running (136ms)
+    ✓ should stop the service (12605ms)
+    ✓ should throw an error if the service is not running (1170ms)
+    ✓ should start the service (1587ms)
+  Storage
+    ✓ should allow an instance to be created
+    ✓ should allow an instance to be saved.
+    ✓ should allow an instance to be recalled
+    ✓ should allow insances to be listed
+    ✓ should allow you to remove an instance
+  10 passing (17s)
+-----------------------|----------|----------|----------|----------|-------------------|
+File                   |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
+-----------------------|----------|----------|----------|----------|-------------------|
+All files              |    86.96 |       50 |    74.29 |    89.39 |                   |
+ fms-admin-client      |      100 |      100 |      100 |      100 |                   |
+  index.js             |      100 |      100 |      100 |      100 |                   |
+ fms-admin-client/src  |    86.57 |       50 |    74.29 |    89.06 |                   |
+  admin.model.js       |    95.24 |      100 |       90 |       95 |                73 |
+  cli.model.js         |       80 |       50 |    66.67 |    84.21 |... ,48,52,100,133 |
+  credentials.model.js |      100 |      100 |      100 |      100 |                   |
+  index.js             |      100 |      100 |      100 |      100 |                   |
+-----------------------|----------|----------|----------|----------|-------------------|
+</code></pre><h2>Dependencies</h2><ul>
+<li><a href="https://ghub.io/child-process-promise">child-process-promise</a>: Simple wrapper around the &quot;child_process&quot; module that makes use of promises</li>
+<li><a href="https://ghub.io/lodash">lodash</a>: Lodash modular utilities.</li>
+<li><a href="https://ghub.io/marpat">marpat</a>: A class-based ES6 ODM for Mongo-like databases.</li>
+<li><a href="https://ghub.io/string-to-stream">string-to-stream</a>: Convert a string into a stream (streams2)</li>
+</ul>
 <h2>Dev Dependencies</h2><ul>
 <li><a href="https://ghub.io/chai">chai</a>: BDD/TDD assertion library for node.js and the browser. Test framework agnostic.</li>
 <li><a href="https://ghub.io/chai-as-promised">chai-as-promised</a>: Extends Chai with assertions about promises.</li>
 <li><a href="https://ghub.io/colors">colors</a>: get colors in your node.js console</li>
+<li><a href="https://ghub.io/coveralls">coveralls</a>: takes json-cov output into stdin and POSTs to coveralls.io</li>
 <li><a href="https://ghub.io/dotenv">dotenv</a>: Loads environment variables from .env file</li>
 <li><a href="https://ghub.io/eslint">eslint</a>: An AST-based pattern checker for JavaScript.</li>
 <li><a href="https://ghub.io/eslint-config-google">eslint-config-google</a>: ESLint shareable config for the Google style</li>
 <li><a href="https://ghub.io/eslint-config-prettier">eslint-config-prettier</a>: Turns off all rules that are unnecessary or might conflict with Prettier.</li>
 <li><a href="https://ghub.io/eslint-plugin-prettier">eslint-plugin-prettier</a>: Runs prettier as an eslint rule</li>
+<li><a href="https://ghub.io/fs-extra">fs-extra</a>: fs-extra contains methods that aren't included in the vanilla Node.js fs package. Such as mkdir -p, cp -r, and rm -rf.</li>
 <li><a href="https://ghub.io/jsdocs">jsdocs</a>: jsdocs</li>
 <li><a href="https://ghub.io/minami">minami</a>: Clean and minimal JSDoc 3 Template / Theme</li>
 <li><a href="https://ghub.io/mocha">mocha</a>: simple, flexible, fun test framework</li>
+<li><a href="https://ghub.io/mocha-lcov-reporter">mocha-lcov-reporter</a>: LCOV reporter for Mocha</li>
+<li><a href="https://ghub.io/nyc">nyc</a>: the Istanbul command line interface</li>
 <li><a href="https://ghub.io/package-json-to-readme">package-json-to-readme</a>: Generate a README.md from package.json contents</li>
 <li><a href="https://ghub.io/prettier">prettier</a>: Prettier is an opinionated code formatter</li>
 <li><a href="https://ghub.io/varium">varium</a>: A strict parser and validator of environment config variables</li>
@@ -89,7 +124,7 @@ Error: no test specified
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu May 17 2018 08:09:43 GMT-0700 (PDT) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 26 2018 14:11:37 GMT-0700 (PDT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

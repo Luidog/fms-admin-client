@@ -25,9 +25,27 @@ class Admin extends Document {
       }
     });
   }
-
+  /**
+   * preInit is a hook
+   * @schema
+   * @return {null} The preInit hook does not return anything
+   */
+  preInit(data) {
+    this.cli = CLI.create({ user: data.user, password: data.password });
+  }
+  /**
+   * @method clone
+   * @memberof Admin
+   * @public
+   * @param {String} database The database to backup.
+   * @description Performs a backup of the database passed to it then copies this file to a temp
+   * directory where the file can be easily streamed to a destination.
+   * @see {@method CLI#backup}
+   * @return {Object} returns an object with the path to the cloned version of the database
+   *
+   */
   clone(database) {
-    return this.getPaths().then(paths =>
+    return this._getPaths().then(paths =>
       this.cli
         .backup(database, paths.fmPath)
         .then(response =>
@@ -42,12 +60,29 @@ class Admin extends Document {
         )
     );
   }
-
+  /**
+   * @method list
+   * @memberof Admin
+   * @public
+   * @description returns an array of the currently active items based on the parameter
+   * sent to it.
+   * @param {String} item the item to list. This can be schedules, files, or clients.
+   * @return {Array} items current open or active items
+   */
   list(item) {
     return this.cli.list(item);
   }
-
-  getPaths() {
+  /**
+   * @method _getPaths
+   * @memberof Admin
+   * @private
+   * @description Gets the working paths for the current server based on a list of files currently
+   * host. There is a lot more work to do here yet. The two keys returned are tempPath and fmPath.
+   * The fmPath contains the volume and filemac or filewin encodings. the tempPath contains the path
+   * for fse to stream the file.
+   * @return {Object} paths a filemaker path and a temp path.
+   */
+  _getPaths() {
     return this.cli.list('files').then(files => {
       fse.ensureDir('./tmp');
       let pathArray = files[0].split(path.sep);
@@ -64,10 +99,6 @@ class Admin extends Document {
       };
       return paths;
     });
-  }
-
-  preInit(data) {
-    this.cli = CLI.create({ user: data.user, password: data.password });
   }
 }
 

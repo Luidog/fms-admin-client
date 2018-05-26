@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>cli.model.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Admin.html">Admin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Admin.html#._getPaths">_getPaths</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Admin.html#.clone">clone</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Admin.html#.list">list</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Admin.html#preInit">preInit</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CLI.html">CLI</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Credentials.html">Credentials</a></span></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-Admin.html">Admin</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-CLI.html">CLI</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-Credentials.html">Credentials</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#cli">cli</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">cli.model.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+const { EmbeddedDocument } = require('marpat');
+const { spawn, exec } = require('child-process-promise');
+const stringStream = require('string-to-stream');
+const { Credentials } = require('./credentials.model');
+
+/**
+ * @class CLI
+ * @classdesc The class containing methods for interacting with the fmsadmin
+ * CLI.
+ */
+
+class CLI extends EmbeddedDocument {
+  constructor() {
+    super();
+    this.schema({
+      credentials: {
+        type: Credentials,
+        required: true
+      }
+    });
+  }
+  preInit(data) {
+    this.credentials = Credentials.create({
+      user: data.user,
+      password: data.password
+    });
+  }
+
+  run(command) {
+    return exec(
+      `fmsadmin -u ${this.credentials.user} -p ${
+        this.credentials.password
+      } ${command}`
+    );
+  }
+
+  pause(database) {
+    return this.run(`PAUSE ${database}`);
+  }
+
+  close(database) {
+    return this.run(`CLOSE ${database}`);
+  }
+
+  open(database) {
+    return this.run(`OPEN ${database}`);
+  }
+
+  resume(database) {
+    return this.run(`RESUME ${database}`);
+  }
+
+  backup(database, destination) {
+    return this.run(`BACKUP ${database} -k0 --dest "${destination}"`);
+  }
+
+  start(service) {
+    return new Promise((resolve, reject) => {
+      let spawnedProcess, child;
+      spawnedProcess = spawn(
+        'fmsadmin',
+        [
+          '-u',
+          this.credentials.user,
+          '-p',
+          this.credentials.password,
+          'start',
+          service
+        ],
+        {
+          capture: ['stdout', 'stderr']
+        }
+      );
+
+      child = spawnedProcess.childProcess;
+
+      child.stdout.on(
+        'data',
+        data =>
+          data.toString().includes('Error:')
+            ? reject(this._errorMap(data))
+            : stringStream('y').pipe(child.stdin)
+      );
+      child.stderr.on('data', data => reject(this._errorMap(data)));
+
+      spawnedProcess
+        .then(response => resolve({ message: response.stdout }))
+        .catch(error => reject(this._errorMap(error)));
+    });
+  }
+
+  list(item) {
+    return this.run(`list ${item}`)
+      .then(response => {
+        typeof response.stdout;
+        return response.stdout === '' ? [] : response.stdout.split('\n');
+      })
+      .catch(error => error.stdout);
+  }
+  stop(service) {
+    return new Promise((resolve, reject) => {
+      let spawnedProcess, child;
+      spawnedProcess = spawn(
+        'fmsadmin',
+        [
+          '-u',
+          this.credentials.user,
+          '-p',
+          this.credentials.password,
+          'stop',
+          service
+        ],
+        {
+          capture: ['stdout', 'stderr']
+        }
+      );
+
+      child = spawnedProcess.childProcess;
+
+      child.stdout.on(
+        'data',
+        data =>
+          data.toString().includes('Error:')
+            ? reject(this._errorMap(data))
+            : stringStream('y').pipe(child.stdin)
+      );
+      child.stderr.on('data', data => reject(this._errorMap(data)));
+
+      spawnedProcess
+        .then(response => resolve({ message: response.stdout }))
+        .catch(error => reject(this._errorMap(error)));
+    });
+  }
+  _errorMap(error) {
+    let mappedError = {
+      code: error.toString().match(/\d+/g)[0],
+      message: error
+        .toString()
+        .split('(')
+        .pop()
+        .split(')')
+        .shift()
+    };
+    return mappedError;
+  }
+}
+/**
+ * @module CLI
+ */
+module.exports = {
+  CLI
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 26 2018 14:11:37 GMT-0700 (PDT) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
