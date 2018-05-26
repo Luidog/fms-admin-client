@@ -9,14 +9,17 @@ environment.config({ path: './tests/.env' });
 varium(process.env, './tests/env.manifest');
 
 connect('nedb://memory').then(db => {
-  let client = Admin.create({
+  let admin = Admin.create({
     user: process.env.USERNAME,
     password: process.env.PASSWORD
   });
 
-  client
-    .save()
-    .then(client => client.cli.start('fmdapi'))
-    .then(response => console.log(response))
-    .catch(error => console.log(error));
+  admin.save().then(admin => {
+    admin.clone('tasks.fmp12').then(file => console.log(file));
+
+    admin
+      .list('files')
+      .then(files => console.log(files))
+      .catch(error => console.log(error));
+  });
 });

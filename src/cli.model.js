@@ -35,23 +35,24 @@ class CLI extends EmbeddedDocument {
       } ${command}`
     );
   }
+
   pause(database) {
     return this.run(`PAUSE ${database}`);
   }
+
   close(database) {
     return this.run(`CLOSE ${database}`);
   }
+
   open(database) {
     return this.run(`OPEN ${database}`);
   }
+
   resume(database) {
     return this.run(`RESUME ${database}`);
   }
-  backup(database, destination) {
-    return this.run(`BACKUP ${database} -k0 --dest ${destination}`);
-  }
 
-  clone(database, destination) {
+  backup(database, destination) {
     return this.run(`BACKUP ${database} -k0 --dest "${destination}"`);
   }
 

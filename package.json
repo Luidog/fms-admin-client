@@ -1,12 +1,14 @@
 {
   "name": "fms-admin-client",
   "version": "0.0.1",
-  "description": "A client to allow remote connection to the FileMaker Server Admin CLI",
+  "description":
+    "A client to allow remote connection to the FileMaker Server Admin CLI",
   "main": "index.js",
   "scripts": {
     "test": "nyc _mocha --recursive ./tests --timeout=30000",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "generate-readme": "node_modules/.bin/readme package.json --tests --travis > README.md",
+    "generate-readme":
+      "node_modules/.bin/readme package.json --tests --travis > README.md",
     "generate-docs": "node_modules/.bin/jsdoc --configure .jsdoc.js --verbose",
     "examples": "node ./examples"
   },
@@ -14,13 +16,7 @@
     "type": "git",
     "url": "git+https://Luidog@github.com/Luidog/fms-admin-client.git"
   },
-  "keywords": [
-    "FileMaker",
-    "marpat",
-    "node",
-    "admin",
-    "cli"
-  ],
+  "keywords": ["FileMaker", "marpat", "node", "admin", "cli"],
   "author": "Lui de la Parra",
   "license": "MIT",
   "bugs": {
@@ -31,6 +27,7 @@
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "colors": "^1.2.1",
+    "coveralls": "^3.0.1",
     "dotenv": "^5.0.1",
     "eslint": "^4.11.0",
     "eslint-config-google": "^0.9.1",
@@ -48,8 +45,8 @@
   },
   "dependencies": {
     "child-process-promise": "^2.2.1",
+    "lodash": "^4.17.10",
     "marpat": "^1.17.0",
-    "node-ssh": "^5.1.1",
     "string-to-stream": "^1.1.1"
   }
 }
