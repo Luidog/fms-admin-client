@@ -1,6 +1,8 @@
 # fms-admin-client
 
-A client to allow remote connection to the FileMaker Server Admin CLI
+A client designed to provide a framework for interactions with FileMaker Server Admin Tools.
+
+For in depth documentation head to the [`docs`](https://luidog.github.io/fms-admin-client)
 
 ## Installation
 

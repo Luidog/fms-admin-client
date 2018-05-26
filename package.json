@@ -2,7 +2,7 @@
   "name": "fms-admin-client",
   "version": "0.0.1",
   "description":
-    "A client to allow remote connection to the FileMaker Server Admin CLI",
+    "A client designed to provide a framework for interactions with FileMaker Server Admin Tools.",
   "main": "index.js",
   "scripts": {
     "test": "nyc _mocha --recursive ./tests --timeout=30000",
