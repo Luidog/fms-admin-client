@@ -6,6 +6,7 @@ const fse = require('fs-extra');
 
 const { Document } = require('marpat');
 const { CLI } = require('./cli.model');
+
 /**
  * @class Admin
  * @classdesc The class used when starting an SSH connection
@@ -24,6 +25,7 @@ class Admin extends Document {
       }
     });
   }
+
   clone(database) {
     return this.getPaths().then(paths =>
       this.cli
@@ -33,7 +35,11 @@ class Admin extends Document {
             .createReadStream(path.join(paths.tempPath, database))
             .pipe(fse.createWriteStream(path.join('./tmp', database)))
         )
-        .then(() => path.join('./tmp', database))
+        .then(() =>
+          Object.assign({
+            path: path.join('./tmp', database)
+          })
+        )
     );
   }
 
