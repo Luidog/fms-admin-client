@@ -41,7 +41,7 @@ describe('Service Capabilities', () => {
   });
 
   it('should throw an error if the service is already running', () => {
-    return expect(admin.cli.start('fmdapi').catch(error => error))
+    return expect(admin.cli.clone('fmdapi').catch(error => error))
       .to.eventually.be.an('object')
       .that.has.all.keys('code', 'message');
   });

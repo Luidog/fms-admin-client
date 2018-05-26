@@ -48,11 +48,13 @@ class CLI extends EmbeddedDocument {
     return this.run(`RESUME ${database}`);
   }
   backup(database, destination) {
-    return this.run(`backup ${database} -k0 --des ${destination}`);
+    return this.run(`BACKUP ${database} -k0 --dest ${destination}`);
   }
+
   clone(database, destination) {
-    return this.run(`backup ${database} -k0 --des ${destination}`);
+    return this.run(`BACKUP ${database} -k0 --dest "${destination}"`);
   }
+
   start(service) {
     return new Promise((resolve, reject) => {
       let spawnedProcess, child;
@@ -92,7 +94,7 @@ class CLI extends EmbeddedDocument {
     return this.run(`list ${item}`)
       .then(response => {
         typeof response.stdout;
-        return response.stdout === '' ? [] : response.stdout;
+        return response.stdout === '' ? [] : response.stdout.split('\n');
       })
       .catch(error => error.stdout);
   }
