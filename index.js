@@ -1,11 +1,11 @@
 'use strict';
 
-const { Client } = require('./filemaker');
+const { Admin } = require('./src');
 
 /**
  * @module
  * @type {Object}
  */
 module.exports = {
-  Client
+  Admin
 };

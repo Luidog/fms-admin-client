@@ -3,31 +3,23 @@
 const environment = require('dotenv');
 const varium = require('varium');
 const { connect } = require('marpat');
-const { Client } = require('../index.js');
+const { Admin } = require('../index.js');
 
 environment.config({ path: './tests/.env' });
 varium(process.env, './tests/env.manifest');
 
 connect('nedb://memory').then(db => {
-  let client = Client.create({
-    host: process.env.HOST,
-    username: process.env.USERNAME,
-    privateKey: process.env.PRIVATEKEY
+  let admin = Admin.create({
+    user: process.env.USERNAME,
+    password: process.env.PASSWORD
   });
 
-  client.save().then(client =>
-    client
-      .connect()
-      .then(ssh => {
-        ssh
-          .exec('fmsadmin', [''], {
-            stream: 'stdout',
-            options: { pty: true }
-          })
-          .then(response => console.log(response))
-          .then(() => client.disconnect());
-      })
+  admin.save().then(admin => {
+    admin.clone('tasks.fmp12').then(file => console.log(file));
 
-      .catch(error => console.log(error))
-  );
+    admin
+      .list('files')
+      .then(files => console.log(files))
+      .catch(error => console.log(error));
+  });
 });
