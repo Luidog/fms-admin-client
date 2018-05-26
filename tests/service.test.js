@@ -16,7 +16,7 @@ const { Admin } = require('../index.js');
 
 chai.use(chaiAsPromised);
 
-describe('Clone Capabilities', () => {
+describe('Service Capabilities', () => {
   let database, admin;
 
   before(done => {
@@ -53,9 +53,14 @@ describe('Clone Capabilities', () => {
   });
 
   it('should throw an error if the service is not running', () => {
-    return expect(admin.cli.stop('fmdapi'))
+    return expect(
+      admin.cli
+        .stop('fmdapi')
+        .then(response => admin.cli.stop('fmdapi'))
+        .catch(error => error)
+    )
       .to.eventually.be.an('object')
-      .that.has.all.keys('code', 'message');
+      .that.has.all.keys('message');
   });
 
   it('should start the service', () => {

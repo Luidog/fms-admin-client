@@ -16,7 +16,7 @@ const { Admin } = require('../index.js');
 
 chai.use(chaiAsPromised);
 
-describe('Service Capabilities', () => {
+describe('Clone Capabilities', () => {
   let database, admin;
 
   before(done => {
@@ -40,27 +40,9 @@ describe('Service Capabilities', () => {
     done();
   });
 
-  it('should throw an error if the service is already running', () => {
-    return expect(admin.cli.clone('fmdapi').catch(error => error))
+  it('should clone a file to a temp directory', () => {
+    return expect(admin.clone('tasks.fmp12').catch(error => error))
       .to.eventually.be.an('object')
-      .that.has.all.keys('code', 'message');
-  });
-
-  it('should stop the service', () => {
-    return expect(admin.cli.stop('fmdapi'))
-      .to.eventually.be.an('object')
-      .that.has.all.keys('message');
-  });
-
-  it('should throw an error if the service is not running', () => {
-    return expect(admin.cli.stop('fmdapi'))
-      .to.eventually.be.an('object')
-      .that.has.all.keys('code', 'message');
-  });
-
-  it('should start the service', () => {
-    return expect(admin.cli.start('fmdapi'))
-      .to.eventually.be.an('object')
-      .that.has.all.keys('message');
+      .that.has.all.keys('path');
   });
 });
