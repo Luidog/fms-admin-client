@@ -46,7 +46,7 @@
   "dependencies": {
     "child-process-promise": "^2.2.1",
     "lodash": "^4.17.10",
-    "marpat": "^1.17.0",
+    "marpat": "^1.17.1",
     "string-to-stream": "^1.1.1"
   }
 }
