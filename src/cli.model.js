@@ -41,7 +41,7 @@ class CLI extends EmbeddedDocument {
   }
 
   close(database) {
-    return this.run(`CLOSE ${database}`);
+    return this.run(`-yf CLOSE ${database} `);
   }
 
   open(database) {
@@ -97,8 +97,9 @@ class CLI extends EmbeddedDocument {
         typeof response.stdout;
         return response.stdout === '' ? [] : response.stdout.split('\n');
       })
-      .catch(error => error.stdout);
+      .catch(error => Object.assign({ message: error.stdout }));
   }
+
   stop(service) {
     return new Promise((resolve, reject) => {
       let spawnedProcess, child;
@@ -133,6 +134,7 @@ class CLI extends EmbeddedDocument {
         .catch(error => reject(this._errorMap(error)));
     });
   }
+
   _errorMap(error) {
     let mappedError = {
       code: error.toString().match(/\d+/g)[0],
