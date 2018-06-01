@@ -5,7 +5,7 @@
     "A client designed to provide a framework for interactions with FileMaker Server Admin Tools.",
   "main": "index.js",
   "scripts": {
-    "test": "nyc _mocha --recursive ./tests --timeout=30000",
+    "test": "nyc _mocha --recursive ./tests --timeout=30000 && npm run coverage",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "generate-readme":
       "node_modules/.bin/readme package.json --tests > README.md",
