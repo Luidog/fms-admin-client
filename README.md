@@ -1,4 +1,5 @@
-# fms-admin-client
+# fms-admin-client [![Coverage Status](https://coveralls.io/repos/github/Luidog/fms-admin-client/badge.svg?branch=master)](https://coveralls.io/github/Luidog/fms-admin-client?branch=master)
+
 
 A client designed to provide a framework for interactions with FileMaker Server Admin Tools.
 
