@@ -16,7 +16,7 @@ const { Admin } = require('../index.js');
 
 chai.use(chaiAsPromised);
 
-describe('Storage', () => {
+describe('Storage Capabilities', () => {
   let database, client;
 
   before(done => {
