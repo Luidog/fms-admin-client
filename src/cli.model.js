@@ -1,6 +1,7 @@
 'use strict';
 
 const { EmbeddedDocument } = require('marpat');
+const fse = require('fs-extra');
 const { spawn, exec } = require('child-process-promise');
 const stringStream = require('string-to-stream');
 const { Credentials } = require('./credentials.model');
@@ -53,7 +54,9 @@ class CLI extends EmbeddedDocument {
   }
 
   backup(database, destination) {
-    return this.run(`BACKUP ${database} -k0 --dest "${destination}"`);
+    return fse
+      .ensureDir(destination)
+      .then(() => this.run(`BACKUP ${database} -k0 --dest "${destination}"`));
   }
 
   start(service) {

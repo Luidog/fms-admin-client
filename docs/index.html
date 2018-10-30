@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Admin.html">Admin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Admin.html#._getPaths">_getPaths</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Admin.html#.clone">clone</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Admin.html#.list">list</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Admin.html#preInit">preInit</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CLI.html">CLI</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Credentials.html">Credentials</a></span></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-Admin.html">Admin</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-CLI.html">CLI</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-Credentials.html">Credentials</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#cli">cli</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Admin.html">Admin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Admin.html#preInit">preInit</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CLI.html">CLI</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Credentials.html">Credentials</a></span></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-Admin.html">Admin</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-CLI.html">CLI</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-Credentials.html">Credentials</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#cli">cli</a></span></li>
 </nav>
 
 <div id="main">
@@ -48,70 +48,237 @@
 
 
     <section class="readme">
-        <article><h1>fms-admin-client</h1><p>A client to allow remote connection to the FileMaker Server Admin CLI</p>
-<h2>Installation</h2><p>This is a <a href="https://nodejs.org/">Node.js</a> module available through the 
-<a href="https://www.npmjs.com/">npm registry</a>. It can be installed using the 
-<a href="https://docs.npmjs.com/getting-started/installing-npm-packages-locally"><code>npm</code></a>
-or 
-<a href="https://yarnpkg.com/en/"><code>yarn</code></a>
-command line tools.</p>
-<pre class="prettyprint source lang-sh"><code>npm install fms-admin-client --save</code></pre><h2>Tests</h2><pre class="prettyprint source lang-sh"><code>npm install
-npm test</code></pre><pre class="prettyprint source"><code>
-> fms-admin-client@0.0.1 test /fms-admin-client
-> nyc _mocha --recursive ./tests --timeout=30000
+        <article><!--@h1([pkg.name])-->
+<h1>fms-admin-client</h1><!--/@-->
+<p><a href="https://coveralls.io/github/Luidog/fms-admin-client?branch=master"><img src="https://coveralls.io/repos/github/Luidog/fms-admin-client/badge.svg?branch=master" alt="Coverage Status"></a></p>
+<p>A client designed to provide a framework for interactions with FileMaker Server Admin Tools.</p>
+<p>For in depth documentation head to the <a href="https://luidog.github.io/fms-admin-client"><code>docs</code></a></p>
+<!--@installation()-->
+<h2>Installation</h2><pre class="prettyprint source lang-sh"><code>npm install --save fms-admin-client</code></pre><!--/@-->
+<!--@execute('npm run test',[])-->
+<pre class="prettyprint source lang-default"><code>> fms-admin-client@0.0.2 test /Users/luidelaparra/Documents/Development/fms-admin-client
+> nyc _mocha --recursive ./tests --timeout=30000 && npm run coverage
+
+
+
   Clone Capabilities
-    ✓ should clone a file to a temp directory (1177ms)
+    1) should clone a file to a temp directory
+
+  list Capabilities
+    2) should pause a database
+    3) should resume a database
+    4) should close a database
+    5) should open a database
+
+  list Capabilities
+    6) should return an array from a list file request
+    7) should return an array from a list schedule request
+    8) should return an array from a list client request
+    9) should reject if it can not list the request
+
   Service Capabilities
-    ✓ should throw an error if the service is already running (136ms)
-    ✓ should stop the service (12605ms)
-    ✓ should throw an error if the service is not running (1170ms)
-    ✓ should start the service (1587ms)
-  Storage
-    ✓ should allow an instance to be created
-    ✓ should allow an instance to be saved.
-    ✓ should allow an instance to be recalled
+    10) should throw an error if the service is already running
+    11) should stop the service
+    12) should throw an error if the service is not running
+    13) should start the service
+
+  Storage Capabilities
+    14) should allow an instance to be created
+    15) should allow an instance to be saved.
+    16) should allow an instance to be recalled
     ✓ should allow insances to be listed
-    ✓ should allow you to remove an instance
-  10 passing (17s)
+    17) should allow you to remove an instance
+
+
+  1 passing (60ms)
+  17 failing
+
+  1) Clone Capabilities
+       should clone a file to a temp directory:
+     TypeError: admin.clone is not a function
+      at Context.it (tests/clone.test.js:44:25)
+      at Context.done (tests/clone.test.js:40:5)
+
+  2) list Capabilities
+       should pause a database:
+     TypeError: Cannot read property 'pause' of undefined
+      at Context.it (tests/database.test.js:44:29)
+      at Context.done (tests/database.test.js:40:5)
+
+  3) list Capabilities
+       should resume a database:
+     TypeError: Cannot read property 'resume' of undefined
+      at Context.it (tests/database.test.js:47:29)
+      at Context.done (tests/database.test.js:40:5)
+
+  4) list Capabilities
+       should close a database:
+     TypeError: Cannot read property 'close' of undefined
+      at Context.it (tests/database.test.js:50:29)
+      at Context.done (tests/database.test.js:40:5)
+
+  5) list Capabilities
+       should open a database:
+     TypeError: Cannot read property 'open' of undefined
+      at Context.it (tests/database.test.js:53:29)
+      at Context.done (tests/database.test.js:40:5)
+
+  6) list Capabilities
+       should return an array from a list file request:
+     TypeError: admin.list is not a function
+      at Context.it (tests/list.test.js:44:25)
+      at Context.done (tests/list.test.js:40:5)
+
+  7) list Capabilities
+       should return an array from a list schedule request:
+     TypeError: admin.list is not a function
+      at Context.it (tests/list.test.js:47:25)
+      at Context.done (tests/list.test.js:40:5)
+
+  8) list Capabilities
+       should return an array from a list client request:
+     TypeError: admin.list is not a function
+      at Context.it (tests/list.test.js:50:25)
+      at Context.done (tests/list.test.js:40:5)
+
+  9) list Capabilities
+       should reject if it can not list the request:
+     TypeError: admin.list is not a function
+      at Context.it (tests/list.test.js:54:13)
+      at Context.done (tests/list.test.js:40:5)
+
+  10) Service Capabilities
+       should throw an error if the service is already running:
+     TypeError: Cannot read property 'start' of undefined
+      at Context.it (tests/service.test.js:44:29)
+      at Context.done (tests/service.test.js:40:5)
+
+  11) Service Capabilities
+       should stop the service:
+     TypeError: Cannot read property 'stop' of undefined
+      at Context.it (tests/service.test.js:50:29)
+      at Context.done (tests/service.test.js:40:5)
+
+  12) Service Capabilities
+       should throw an error if the service is not running:
+     TypeError: Cannot read property 'stop' of undefined
+      at Context.it (tests/service.test.js:58:10)
+      at Context.done (tests/service.test.js:40:5)
+
+  13) Service Capabilities
+       should start the service:
+     TypeError: Cannot read property 'start' of undefined
+      at Context.it (tests/service.test.js:67:29)
+      at Context.done (tests/service.test.js:40:5)
+
+  14) Storage Capabilities
+       should allow an instance to be created:
+
+      AssertionError: expected { Object (_schema, _id, ...) } to have keys '_schema', 'cli', and '_id'
+      + expected - actual
+
+       [
+         &quot;_id&quot;
+         &quot;_schema&quot;
+      -  &quot;api&quot;
+         &quot;cli&quot;
+      -  &quot;migration&quot;
+      -  &quot;password&quot;
+      -  &quot;user&quot;
+       ]
+
+      at getBasePromise.then.then.newArgs (node_modules/chai-as-promised/lib/chai-as-promised.js:302:22)
+      at &lt;anonymous>
+
+  15) Storage Capabilities
+       should allow an instance to be saved.:
+     ValidationError: Key admins.cli is required, but got undefined
+      at /Users/luidelaparra/Documents/Development/fms-admin-client/node_modules/marpat/lib/base-document.js:195:15
+      at Array.forEach (&lt;anonymous>)
+      at Admin.validate (node_modules/marpat/lib/base-document.js:139:26)
+      at Promise.all.then (node_modules/marpat/lib/document.js:38:14)
+      at &lt;anonymous>
+
+  16) Storage Capabilities
+       should allow an instance to be recalled:
+     AssertionError: expected null to be an object
+
+
+  17) Storage Capabilities
+       should allow you to remove an instance:
+
+      AssertionError: expected 0 to equal 1
+      + expected - actual
+
+      -0
+      +1
+
+      at getBasePromise.then.then.newArgs (node_modules/chai-as-promised/lib/chai-as-promised.js:302:22)
+      at &lt;anonymous>
+
+
+
 -----------------------|----------|----------|----------|----------|-------------------|
 File                   |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
 -----------------------|----------|----------|----------|----------|-------------------|
-All files              |    86.96 |       50 |    74.29 |    89.39 |                   |
+All files              |    30.68 |        0 |     7.89 |    32.53 |                   |
  fms-admin-client      |      100 |      100 |      100 |      100 |                   |
   index.js             |      100 |      100 |      100 |      100 |                   |
- fms-admin-client/src  |    86.57 |       50 |    74.29 |    89.06 |                   |
-  admin.model.js       |    95.24 |      100 |       90 |       95 |                73 |
-  cli.model.js         |       80 |       50 |    66.67 |    84.21 |... ,48,52,100,133 |
-  credentials.model.js |      100 |      100 |      100 |      100 |                   |
+ fms-admin-client/src  |    29.07 |        0 |     7.89 |    30.86 |                   |
+  admin.model.js       |    81.82 |      100 |    66.67 |    81.82 |             43,47 |
+  cli.model.js         |    14.29 |        0 |        0 |       15 |... 36,137,142,151 |
+  credentials.model.js |       50 |      100 |        0 |       50 |             11,12 |
   index.js             |      100 |      100 |      100 |      100 |                   |
+  migration.model.js   |    22.22 |        0 |    11.11 |       25 |... 59,60,64,65,69 |
 -----------------------|----------|----------|----------|----------|-------------------|
-</code></pre><h2>Dependencies</h2><ul>
-<li><a href="https://ghub.io/child-process-promise">child-process-promise</a>: Simple wrapper around the &quot;child_process&quot; module that makes use of promises</li>
-<li><a href="https://ghub.io/lodash">lodash</a>: Lodash modular utilities.</li>
-<li><a href="https://ghub.io/marpat">marpat</a>: A class-based ES6 ODM for Mongo-like databases.</li>
-<li><a href="https://ghub.io/string-to-stream">string-to-stream</a>: Convert a string into a stream (streams2)</li>
+npm ERR! code ELIFECYCLE
+npm ERR! errno 17
+npm ERR! fms-admin-client@0.0.2 test: `nyc _mocha --recursive ./tests --timeout=30000 && npm run coverage`
+npm ERR! Exit status 17
+npm ERR! 
+npm ERR! Failed at the fms-admin-client@0.0.2 test script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /Users/luidelaparra/.npm/_logs/2018-10-30T05_49_18_327Z-debug.log</code></pre><!--/@-->
+<!--@dependencies()-->
+<h2><a name="dependencies">Dependencies</a></h2><ul>
+<li><a href="https://github.com/jprichardson/node-fs-extra">fs-extra</a>: fs-extra contains methods that aren't included in the vanilla Node.js fs package. Such as mkdir -p, cp -r, and rm -rf.</li>
+<li><a href="https://github.com/patrick-steele-idem/child-process-promise">child-process-promise</a>: Simple wrapper around the &quot;child_process&quot; module that makes use of promises</li>
+<li><a href="https://github.com/lodash/lodash">lodash</a>: Lodash modular utilities.</li>
+<li><a href="https://github.com/luidog/marpat">marpat</a>: A class-based ES6 ODM for Mongo-like databases.</li>
+<li><a href="https://github.com/feross/string-to-stream">string-to-stream</a>: Convert a string into a stream (streams2)</li>
 </ul>
-<h2>Dev Dependencies</h2><ul>
-<li><a href="https://ghub.io/chai">chai</a>: BDD/TDD assertion library for node.js and the browser. Test framework agnostic.</li>
-<li><a href="https://ghub.io/chai-as-promised">chai-as-promised</a>: Extends Chai with assertions about promises.</li>
-<li><a href="https://ghub.io/colors">colors</a>: get colors in your node.js console</li>
-<li><a href="https://ghub.io/coveralls">coveralls</a>: takes json-cov output into stdin and POSTs to coveralls.io</li>
-<li><a href="https://ghub.io/dotenv">dotenv</a>: Loads environment variables from .env file</li>
-<li><a href="https://ghub.io/eslint">eslint</a>: An AST-based pattern checker for JavaScript.</li>
-<li><a href="https://ghub.io/eslint-config-google">eslint-config-google</a>: ESLint shareable config for the Google style</li>
-<li><a href="https://ghub.io/eslint-config-prettier">eslint-config-prettier</a>: Turns off all rules that are unnecessary or might conflict with Prettier.</li>
-<li><a href="https://ghub.io/eslint-plugin-prettier">eslint-plugin-prettier</a>: Runs prettier as an eslint rule</li>
-<li><a href="https://ghub.io/fs-extra">fs-extra</a>: fs-extra contains methods that aren't included in the vanilla Node.js fs package. Such as mkdir -p, cp -r, and rm -rf.</li>
-<li><a href="https://ghub.io/jsdocs">jsdocs</a>: jsdocs</li>
-<li><a href="https://ghub.io/minami">minami</a>: Clean and minimal JSDoc 3 Template / Theme</li>
-<li><a href="https://ghub.io/mocha">mocha</a>: simple, flexible, fun test framework</li>
-<li><a href="https://ghub.io/mocha-lcov-reporter">mocha-lcov-reporter</a>: LCOV reporter for Mocha</li>
-<li><a href="https://ghub.io/nyc">nyc</a>: the Istanbul command line interface</li>
-<li><a href="https://ghub.io/package-json-to-readme">package-json-to-readme</a>: Generate a README.md from package.json contents</li>
-<li><a href="https://ghub.io/prettier">prettier</a>: Prettier is an opinionated code formatter</li>
-<li><a href="https://ghub.io/varium">varium</a>: A strict parser and validator of environment config variables</li>
+<!--/@-->
+<!--@devDependencies()-->
+<h2><a name="dev-dependencies">Dev Dependencies</a></h2><ul>
+<li><a href="https://github.com/chaijs/chai">chai</a>: BDD/TDD assertion library for node.js and the browser. Test framework agnostic.</li>
+<li><a href="https://github.com/domenic/chai-as-promised">chai-as-promised</a>: Extends Chai with assertions about promises.</li>
+<li><a href="https://github.com/Marak/colors.js">colors</a>: get colors in your node.js console</li>
+<li><a href="https://github.com/nickmerwin/node-coveralls">coveralls</a>: takes json-cov output into stdin and POSTs to coveralls.io</li>
+<li><a href="https://github.com/motdotla/dotenv">dotenv</a>: Loads environment variables from .env file</li>
+<li><a href="https://github.com/eslint/eslint">eslint</a>: An AST-based pattern checker for JavaScript.</li>
+<li><a href="https://github.com/google/eslint-config-google">eslint-config-google</a>: ESLint shareable config for the Google style</li>
+<li><a href="https://github.com/prettier/eslint-config-prettier">eslint-config-prettier</a>: Turns off all rules that are unnecessary or might conflict with Prettier.</li>
+<li><a href="https://github.com/prettier/eslint-plugin-prettier">eslint-plugin-prettier</a>: Runs prettier as an eslint rule</li>
+<li><a href="https://github.com/jsdoc3/jsdoc">jsdoc</a>: An API documentation generator for JavaScript.</li>
+<li><a href="https://github.com/Nijikokun/minami">minami</a>: Clean and minimal JSDoc 3 Template / Theme</li>
+<li><a href="https://github.com/mochajs/mocha">mocha</a>: simple, flexible, fun test framework</li>
+<li><a href="https://github.com/StevenLooman/mocha-lcov-reporter">mocha-lcov-reporter</a>: LCOV reporter for Mocha</li>
+<li><a href="https://github.com/mosjs/mos">mos</a>: A pluggable module that injects content into your markdown files via hidden JavaScript snippets</li>
+<li><a href="https://github.com/mosjs/mos/tree/master/packages/mos-plugin-dependencies">mos-plugin-dependencies</a>: A mos plugin that creates dependencies sections</li>
+<li><a href="https://github.com/team-767/mos-plugin-execute">mos-plugin-execute</a>: Mos plugin to inline a process output</li>
+<li><a href="https://github.com/mosjs/mos/tree/master/packages/mos-plugin-installation">mos-plugin-installation</a>: A mos plugin for creating installation section</li>
+<li><a href="https://github.com/mosjs/mos-plugin-license">mos-plugin-license</a>: A mos plugin for generating a license section</li>
+<li><a href="https://github.com/mosjs/mos/tree/master/packages/mos-plugin-snippet">mos-plugin-snippet</a>: A mos plugin for embedding snippets from files</li>
+<li><a href="https://github.com/istanbuljs/nyc">nyc</a>: the Istanbul command line interface</li>
+<li><a href="https://github.com/prettier/prettier">prettier</a>: Prettier is an opinionated code formatter</li>
+<li><a href="https://npmjs.org/package/varium">varium</a>: A strict parser and validator of environment config variables</li>
 </ul>
-<h2>License</h2><p>MIT</p></article>
+<!--/@-->
+<!--@license()-->
+<h2>License</h2><p>MIT © Lui de la Parra
+<!--/@--></p></article>
     </section>
 
 
@@ -124,7 +291,7 @@ All files              |    86.96 |       50 |    74.29 |    89.39 |            
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 26 2018 14:11:37 GMT-0700 (PDT) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Oct 29 2018 22:49:18 GMT-0700 (PDT) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

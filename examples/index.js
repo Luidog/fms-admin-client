@@ -8,18 +8,30 @@ const { Admin } = require('../index.js');
 environment.config({ path: './tests/.env' });
 varium(process.env, './tests/env.manifest');
 
-connect('nedb://memory').then(db => {
-  let admin = Admin.create({
-    user: process.env.USERNAME,
-    password: process.env.PASSWORD
-  });
+connect('nedb://memory')
+  .then(db => {
+    let admin = Admin.create({
+      user: process.env.USERNAME,
+      password: process.env.PASSWORD,
+      path: process.env.MIGRATION_TOOL_PATH
+    });
 
-  admin.save().then(admin => {
-    admin.clone('tasks.fmp12').then(file => console.log(file));
-
-    admin
-      .list('files')
-      .then(files => console.log(files))
-      .catch(error => console.log(error));
-  });
-});
+    return admin.save().then(admin => {
+      admin.migration.execute({
+        force: true,
+        clone_path: './migration/Test-DB-Clone.fmp12',
+        src_path: './migration/Test-DB-Prod.fmp12'
+      });
+      return admin;
+    });
+  })
+  .then(admin => {
+                setTimeout(function() {
+      Admin.find().then(admins=>console.log(admins[0].toJSON()))
+    }, 1000);
+            setTimeout(function() {
+      Admin.find().then(admins=>console.log(admins[0].toJSON()))
+    }, 10000);
+    
+  })
+  .catch(error => console.log('error', error));

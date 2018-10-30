@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Credentials - Documentation</title>
+    <title>api.model.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,95 +29,42 @@
 
 <div id="main">
     
-    <h1 class="page-title">Credentials</h1>
+    <h1 class="page-title">api.model.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
-<article>
-    <div class="container-overview">
-    
-        
+const { EmbeddedDocument } = require('marpat');
 
-        
-    
-    </div>
+/**
+ * @class CLI
+ * @classdesc The class containing methods for interacting with the fmsadmin
+ * CLI.
+ */
 
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
-
-
-
-
-
-
-
-<section>
-
-<header>
-    
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+class API extends EmbeddedDocument {
+  constructor() {
+    super();
+    this.schema({
+    });
+  }
+}
+/**
+ * @module CLI
+ */
+module.exports = {
+  API
+};
+</code></pre>
+        </article>
+    </section>
 
 
 
