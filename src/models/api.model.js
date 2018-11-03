@@ -11,8 +11,7 @@ const { EmbeddedDocument } = require('marpat');
 class API extends EmbeddedDocument {
   constructor() {
     super();
-    this.schema({
-    });
+    this.schema({});
   }
 }
 /**

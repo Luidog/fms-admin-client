@@ -1,6 +1,6 @@
 'use strict';
 
-const { Admin } = require('./admin.model');
+const { Admin } = require('./models');
 
 module.exports = {
   Admin

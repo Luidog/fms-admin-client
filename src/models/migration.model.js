@@ -1,8 +1,9 @@
 'use strict';
 
 const { Document } = require('marpat');
-const { spawn, exec } = require('child_process');
-const _ = require('lodash');
+const { spawn } = require('child_process');
+const { convertCommands } = require('../utilities');
+
 /**
  * @class Credentials
  * @classdesc The class used to authenticate with into the FileMaker API.
@@ -30,37 +31,26 @@ class Migration extends Document {
   }
 
   execute(commands) {
-    this.session = [];
-    let commandArray = _.flatten(
-      _.compact(
-        _.values(
-          _.mapValues(commands, (value, key, object) => {
-            if (value === true) {
-              return [`-${key}`];
-            } else if (value !== false) {
-              return [`-${key}`, value];
-            }
-            return;
-          })
-        )
-      )
-    );
-    let thisProcess = spawn(this.path, commandArray);
-
-    thisProcess.stdout.on('data', data => this.log(data));
-    thisProcess.stderr.on('error', error => this.log(error));
-    thisProcess.on('close', () => this.end());
-    this.process = thisProcess.pid;
-
+    let newProcess = spawn(this.path, convertCommands(commands));
+    this._attach(newProcess);
     return this.save();
   }
 
-  log(data) {
+  _attach(newProcess) {
+    this.session = [];
+    this.process = newProcess.pid;
+    newProcess.on('error', error => this._log(error));
+    newProcess.stdout.on('data', data => this._log(data));
+    newProcess.stderr.on('error', error => this._log(error));
+    newProcess.on('close', () => this._end());
+  }
+
+  _log(data) {
     this.session.push(data.toString());
     return this.save();
   }
 
-  end() {
+  _end() {
     this.process = undefined;
     return this.save();
   }

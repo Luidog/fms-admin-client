@@ -17,21 +17,25 @@ connect('nedb://memory')
     });
 
     return admin.save().then(admin => {
-      admin.migration.execute({
-        force: true,
-        clone_path: './migration/Test-DB-Clone.fmp12',
-        src_path: './migration/Test-DB-Prod.fmp12'
-      });
+      admin.migration
+        .execute({
+          force: true,
+          clone_path: './migration/Test-DB-Clone.fmp12',
+          src_path: './migration/Test-DB-Prod.fmp12'
+        })
+        .then(migration => console.log(migration))
+        .catch(error => {
+          console.log('ERROR',error);
+        });
       return admin;
     });
   })
   .then(admin => {
-                setTimeout(function() {
-      Admin.find().then(admins=>console.log(admins[0].toJSON()))
+    setTimeout(function() {
+      Admin.find().then(admins => console.log(admins[0].toJSON()));
     }, 1000);
-            setTimeout(function() {
-      Admin.find().then(admins=>console.log(admins[0].toJSON()))
+    setTimeout(function() {
+      Admin.find().then(admins => console.log(admins[0].toJSON()));
     }, 10000);
-    
   })
   .catch(error => console.log('error', error));

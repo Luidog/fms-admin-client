@@ -3,7 +3,7 @@
 const { Document } = require('marpat');
 const { CLI } = require('./cli.model');
 const { Migration } = require('./migration.model');
-const { API } = require('./cli.model');
+const { API } = require('./api.model');
 /**
 
 /**
@@ -38,9 +38,9 @@ class Admin extends Document {
    * @return {null} The preInit hook does not return anything
    */
   preInit(data) {
-    this.migration = Migration.create({ path: data.path });
-    this.api = API.create()
     this.cli = CLI.create({ user: data.user, password: data.password });
+    this.migration = Migration.create({ path: data.path });
+    this.api = API.create({});
   }
 
   preSave() {

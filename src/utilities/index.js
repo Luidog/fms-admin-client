@@ -1,0 +1,21 @@
+'use strict';
+
+const _ = require('lodash');
+
+const convertCommands = object =>
+  _.flatten(
+    _.compact(
+      _.values(
+        _.mapValues(object, (value, key, object) => {
+          if (value === true) {
+            return [`-${key}`];
+          } else if (value !== false) {
+            return [`-${key}`, value];
+          }
+          return;
+        })
+      )
+    )
+  );
+
+module.exports = { convertCommands };
