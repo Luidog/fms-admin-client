@@ -22,7 +22,7 @@ class Admin extends Document {
         type: CLI,
         required: true
       },
-      api:{
+      api: {
         type: API,
         required: true
       },
@@ -38,13 +38,14 @@ class Admin extends Document {
    * @return {null} The preInit hook does not return anything
    */
   preInit(data) {
-    this.cli = CLI.create({ user: data.user, password: data.password });
-    this.migration = Migration.create({ path: data.path });
+    let { user, path, password } = data;
+    this.cli = CLI.create({ user, password });
+    this.migration = Migration.create({ path: path || 'none' });
     this.api = API.create({});
   }
 
   preSave() {
-    return this.migration.save();
+    return Promise.all([this.migration.save(), this.api.save()]);
   }
 }
 

@@ -14,15 +14,16 @@ const varium = require('varium');
 const { connect } = require('marpat');
 const { Admin } = require('../index.js');
 
+environment.config({ path: './tests/.env' });
+varium(process.env, './tests/env.manifest');
+
 chai.use(chaiAsPromised);
 
-describe('Clone Capabilities', () => {
+describe('Admin Client Capabilities', () => {
   let database, admin;
 
   before(done => {
-    environment.config({ path: './tests/.env' });
-    varium(process.env, './tests/env.manifest');
-    connect('nedb://memory')
+    connect(process.env.DATASTORE_URL)
       .then(db => {
         database = db;
         return database.dropDatabase();
@@ -32,17 +33,13 @@ describe('Clone Capabilities', () => {
       });
   });
 
-  beforeEach(done => {
+  it('should allow the migration tool path to be omitted', () => {
     admin = Admin.create({
-      user: process.env.USERNAME,
-      password: process.env.PASSWORD
+      user: process.env.ADMIN_USERNAME,
+      password: process.env.ADMIN_PASSWORD
     });
-    done();
-  });
-
-  it('should clone a file to a temp directory', () => {
-    return expect(admin.clone('tasks.fmp12').catch(error => error))
+    return expect(admin.save())
       .to.eventually.be.an('object')
-      .that.has.all.keys('path');
+      .that.has.all.keys('_schema', '_id', 'cli', 'api', 'migration');
   });
 });

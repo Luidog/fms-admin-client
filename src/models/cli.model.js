@@ -22,6 +22,7 @@ class CLI extends EmbeddedDocument {
       }
     });
   }
+
   preInit(data) {
     this.credentials = Credentials.create({
       user: data.user,

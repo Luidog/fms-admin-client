@@ -16,7 +16,7 @@ const { Admin } = require('../index.js');
 
 chai.use(chaiAsPromised);
 
-describe('Service Capabilities', () => {
+describe('CLI Capabilities', () => {
   let database, admin;
 
   before(done => {
@@ -34,10 +34,10 @@ describe('Service Capabilities', () => {
 
   beforeEach(done => {
     admin = Admin.create({
-      user: process.env.USERNAME,
-      password: process.env.PASSWORD
+      user: process.env.ADMIN_USERNAME,
+      password: process.env.ADMIN_PASSWORD
     });
-    done();
+    admin.save().then(admin => done());
   });
 
   it('should throw an error if the service is already running', () => {
@@ -63,9 +63,25 @@ describe('Service Capabilities', () => {
       .that.has.all.keys('message');
   });
 
-  it('should start the service', () => {
-    return expect(admin.cli.start('fmdapi'))
-      .to.eventually.be.an('object')
-      .that.has.all.keys('message');
+  it('should pause a database', () => {
+    return expect(admin.cli.pause('FMServer_Sample.fmp12')).to.eventually.be.an(
+      'object'
+    );
   });
+  it('should resume a database', () => {
+    return expect(
+      admin.cli.resume('FMServer_Sample.fmp12')
+    ).to.eventually.be.an('object');
+  });
+  it('should close a database', () => {
+    return expect(admin.cli.close('FMServer_Sample.fmp12')).to.eventually.be.an(
+      'object'
+    );
+  });
+  it('should open a database', () => {
+    return expect(admin.cli.open('FMServer_Sample.fmp12')).to.eventually.be.an(
+      'object'
+    );
+  });
+
 });

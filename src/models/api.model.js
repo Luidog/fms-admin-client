@@ -1,14 +1,14 @@
 'use strict';
 
-const { EmbeddedDocument } = require('marpat');
+const { Document } = require('marpat');
 
 /**
- * @class CLI
- * @classdesc The class containing methods for interacting with the fmsadmin
- * CLI.
+ * @class API
+ * @classdesc The class containing methods for interacting with the Admin API
+ * 
  */
 
-class API extends EmbeddedDocument {
+class API extends Document {
   constructor() {
     super();
     this.schema({});

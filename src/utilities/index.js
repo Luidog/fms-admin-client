@@ -2,6 +2,8 @@
 
 const _ = require('lodash');
 
+const sanitize = (object, parameters) => _.pick(object, parameters);
+
 const convertCommands = object =>
   _.flatten(
     _.compact(
@@ -18,4 +20,4 @@ const convertCommands = object =>
     )
   );
 
-module.exports = { convertCommands };
+module.exports = { convertCommands, sanitize };

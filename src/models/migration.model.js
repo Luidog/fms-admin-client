@@ -2,7 +2,8 @@
 
 const { Document } = require('marpat');
 const { spawn } = require('child_process');
-const { convertCommands } = require('../utilities');
+const { convertCommands, sanitize } = require('../utilities');
+const { migration } = require('../constants');
 
 /**
  * @class Credentials
@@ -18,6 +19,7 @@ class Migration extends Document {
        */
       path: {
         type: String,
+        default: 'none',
         required: true
       },
       session: {
@@ -31,9 +33,16 @@ class Migration extends Document {
   }
 
   execute(commands) {
-    let newProcess = spawn(this.path, convertCommands(commands));
+    let newProcess = spawn(
+      this.path,
+      convertCommands(sanitize(commands, migration.commands))
+    );
     this._attach(newProcess);
-    return this.save();
+    return this.save().then(migration => migration.toJSON());
+  }
+
+  status() {
+    return this.session;
   }
 
   _attach(newProcess) {
@@ -41,8 +50,7 @@ class Migration extends Document {
     this.process = newProcess.pid;
     newProcess.on('error', error => this._log(error));
     newProcess.stdout.on('data', data => this._log(data));
-    newProcess.stderr.on('error', error => this._log(error));
-    newProcess.on('close', () => this._end());
+    newProcess.on('exit', () => this._end());
   }
 
   _log(data) {
@@ -56,7 +64,14 @@ class Migration extends Document {
   }
 
   stop() {
-    process.kill(this.process);
+    return new Promise((resolve, reject) => {
+      try {
+        process.kill(this.process);
+      } catch (error) {
+        reject({ message: error.message });
+      }
+      resolve({ process: this.process, message: 'process stopped' });
+    });
   }
 }
 /**

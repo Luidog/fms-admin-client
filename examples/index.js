@@ -8,34 +8,27 @@ const { Admin } = require('../index.js');
 environment.config({ path: './tests/.env' });
 varium(process.env, './tests/env.manifest');
 
-connect('nedb://memory')
+connect(process.env.DATASTORE_URL)
   .then(db => {
     let admin = Admin.create({
-      user: process.env.USERNAME,
-      password: process.env.PASSWORD,
-      path: process.env.MIGRATION_TOOL_PATH
+      user: process.env.ADMIN_USERNAME,
+      password: process.env.ADMIN_PASSWORD,
+      path: process.env.FILEMAKER_MIGRATION_TOOL
     });
 
-    return admin.save().then(admin => {
-      admin.migration
-        .execute({
+    return admin
+      .save()
+      .then(admin => {
+        setTimeout(() => {
+          console.log(admin.migration.status());
+        }, 13000);
+
+        return admin.migration.execute({
           force: true,
-          clone_path: './migration/Test-DB-Clone.fmp12',
-          src_path: './migration/Test-DB-Prod.fmp12'
-        })
-        .then(migration => console.log(migration))
-        .catch(error => {
-          console.log('ERROR',error);
+          clone_path: process.env.FILEMAKER_CLONE_DB,
+          src_path: process.env.FILEMAKER_SOURCE_DB
         });
-      return admin;
-    });
-  })
-  .then(admin => {
-    setTimeout(function() {
-      Admin.find().then(admins => console.log(admins[0].toJSON()));
-    }, 1000);
-    setTimeout(function() {
-      Admin.find().then(admins => console.log(admins[0].toJSON()));
-    }, 10000);
+      })
+      .then(migration => console.log(migration));
   })
   .catch(error => console.log('error', error));

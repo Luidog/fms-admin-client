@@ -1,15 +1,14 @@
 {
   "name": "fms-admin-client",
   "version": "0.1.0",
-  "description":
-    "A client designed to provide a framework for interactions with FileMaker Server Admin Tools.",
+  "description": "A client designed to provide a framework for interactions with FileMaker Server Admin Tools.",
   "main": "index.js",
   "scripts": {
-    "test":
-      "nyc _mocha --recursive ./tests --timeout=30000 && npm run coverage",
+    "test": "nyc _mocha --recursive ./tests --timeout=30000 && npm run coverage",
+    "test": "nyc _mocha --recursive ./tests --timeout=30000 && npm run coverage",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "generate-docs":
-      "mos && node_modules/.bin/jsdoc --configure .jsdoc.js --verbose",
+    "report": "nyc report --reporter=html",
+    "generate-docs": "mos && node_modules/.bin/jsdoc --configure .jsdoc.js --verbose",
     "examples": "node ./examples"
   },
   "repository": {
@@ -32,7 +31,9 @@
   },
   "homepage": "https://github.com/Luidog/fms-admin-client#readme",
   "mos": {
-    "plugins": ["execute"]
+    "plugins": [
+      "execute"
+    ]
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -62,7 +63,7 @@
     "fs-extra": "^6.0.1",
     "child-process-promise": "^2.2.1",
     "lodash": "^4.17.10",
-    "marpat": "^1.19.0",
+    "marpat": "1.18.2",
     "string-to-stream": "^1.1.1"
   }
 }
