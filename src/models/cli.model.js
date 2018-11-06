@@ -30,7 +30,35 @@ class CLI extends EmbeddedDocument {
     });
   }
 
-  run(command) {
+  autoRestart() {}
+
+  backup() {}
+
+  clearKey() {}
+
+  close() {}
+
+  disable() {}
+  disconnect() {}
+  enable() {}
+  help() {}
+  list() {}
+  open() {}
+  certificate(create, options) {}
+  pause() {}
+  remove() {}
+  resetPw() {}
+  restart() {}
+  resume() {}
+  run() {}
+  send() {}
+  standby() {}
+  start() {}
+  status() {}
+  stop() {}
+  verify() {}
+  wpe() {}
+  _execute(command) {
     return exec(
       `fmsadmin -u ${this.credentials.user} -p ${
         this.credentials.password
