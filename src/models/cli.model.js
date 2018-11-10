@@ -25,7 +25,7 @@ class CLI extends EmbeddedDocument {
 
   preInit(data) {
     this.credentials = Credentials.create({
-      user: data.user,
+      username: data.username,
       password: data.password
     });
   }
@@ -60,7 +60,7 @@ class CLI extends EmbeddedDocument {
   wpe() {}
   _execute(command) {
     return exec(
-      `fmsadmin -u ${this.credentials.user} -p ${
+      `fmsadmin -u ${this.credentials.username} -p ${
         this.credentials.password
       } ${command}`
     );

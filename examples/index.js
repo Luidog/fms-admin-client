@@ -11,13 +11,15 @@ varium(process.env, './tests/env.manifest');
 connect(process.env.DATASTORE_URL)
   .then(db => {
     let admin = Admin.create({
-      user: process.env.ADMIN_USERNAME,
+      username: process.env.ADMIN_USERNAME,
       password: process.env.ADMIN_PASSWORD,
-      path: process.env.FILEMAKER_MIGRATION_TOOL
+      path: process.env.FILEMAKER_MIGRATION_TOOL,
+      server: process.env.FILEMAKER_SERVER
     });
-
     return admin
       .save()
+      .then(admin => admin.api.login())
+      .then(response =>console.log(response))
       .then(admin => {
         setTimeout(() => {
           console.log(admin.migration.status());
@@ -29,6 +31,7 @@ connect(process.env.DATASTORE_URL)
           src_path: process.env.FILEMAKER_SOURCE_DB
         });
       })
-      .then(migration => console.log(migration));
+      .then(migration => admin.api.logout())
+      .then(response => console.log(response));
   })
-  .catch(error => console.log('error', error));
+  .catch(error => console.log(error));

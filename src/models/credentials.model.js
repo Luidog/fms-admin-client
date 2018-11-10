@@ -22,7 +22,7 @@ class Credentials extends EmbeddedDocument {
        * @member Credentials#user
        * @type String
        */
-      user: {
+      username: {
         type: String,
         required: true
       }

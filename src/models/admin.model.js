@@ -38,15 +38,21 @@ class Admin extends Document {
    * @return {null} The preInit hook does not return anything
    */
   preInit(data) {
-    let { user, path, password } = data;
-    this.cli = CLI.create({ user, password });
+    let { username, path, password, server } = data;
+    this.cli = CLI.create({ username, password });
     this.migration = Migration.create({ path: path || 'none' });
-    this.api = API.create({});
+    this.api = API.create({ server, username, password });
+    // this.agent = Agent.create({ agent, proxy, timeout, protocol });
   }
 
   preSave() {
     return Promise.all([this.migration.save(), this.api.save()]);
   }
+
+  execute(){
+    return this.cli.execute(this.credentials)
+  }
+
 }
 
 /**
