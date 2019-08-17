@@ -1,23 +1,7 @@
 'use strict';
 
-const _ = require('lodash');
+const { convertCommands, sanitize } = require('./conversion.utilities');
 
-const sanitize = (object, parameters) => _.pick(object, parameters);
+const { urls } = require('./urls.utilities');
 
-const convertCommands = object =>
-  _.flatten(
-    _.compact(
-      _.values(
-        _.mapValues(object, (value, key, object) => {
-          if (value === true) {
-            return [`-${key}`];
-          } else if (value !== false) {
-            return [`-${key}`, value];
-          }
-          return;
-        })
-      )
-    )
-  );
-
-module.exports = { convertCommands, sanitize };
+module.exports = { convertCommands, sanitize, urls };
