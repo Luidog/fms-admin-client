@@ -33,11 +33,11 @@ class Migration extends Document {
   }
 
   execute(commands) {
-    let newProcess = spawn(
+    const newProcess = spawn(
       this.path,
       convertCommands(sanitize(commands, migration.commands))
     );
-    this._attach(newProcess);
+    this.attach(newProcess);
     return this.save().then(migration => migration.toJSON());
   }
 
@@ -45,20 +45,20 @@ class Migration extends Document {
     return this.session;
   }
 
-  _attach(newProcess) {
+  attach(newProcess) {
     this.session = [];
     this.process = newProcess.pid;
-    newProcess.on('error', error => this._log(error));
-    newProcess.stdout.on('data', data => this._log(data));
-    newProcess.on('exit', () => this._end());
+    newProcess.on('error', error => this.log(error));
+    newProcess.stdout.on('data', data => this.log(data));
+    newProcess.on('exit', () => this.end());
   }
 
-  _log(data) {
+  log(data) {
     this.session.push(data.toString());
     return this.save();
   }
 
-  _end() {
+  end() {
     this.process = undefined;
     return this.save();
   }
