@@ -62,7 +62,7 @@
   "dependencies": {
     "fs-extra": "^6.0.1",
     "child-process-promise": "^2.2.1",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.21",
     "marpat": "1.18.2",
     "string-to-stream": "^1.1.1"
   }
